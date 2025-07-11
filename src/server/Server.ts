@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import { Application } from 'express';
 import 'dotenv/config';
 
 export default class Server {

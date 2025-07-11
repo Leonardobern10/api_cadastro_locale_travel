@@ -1,5 +1,4 @@
-import test from 'node:test';
-import Server from 'Server';
+import Server from 'server/Server';
 
 export default class App {
     private server: Server;
