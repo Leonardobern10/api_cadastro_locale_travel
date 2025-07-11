@@ -11,7 +11,7 @@ export default class App {
         this.testApi();
     }
 
-    public init() {
+    public init(): void {
         this.server.getApp().listen(this.server.getPort(), () => {
             console.log(
                 `Executando servidor em http://localhost:${this.server.getPort()}`
@@ -22,9 +22,9 @@ export default class App {
             .catch((error) => console.error(`Erro ao estabelecer conexão com o banco => ${error}`))
     }
 
-    public testApi() {
+    public testApi(): void {
         this.server.getApp().get('/', async (req, res) => {
-            res.send('Hello World!');
+            res.json('Hello World!');
         });
     }
 }
