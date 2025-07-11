@@ -1,10 +1,13 @@
 import Server from 'server/Server';
+import { DataSource } from 'typeorm';
 
 export default class App {
     private server: Server;
+    private db: DataSource;
 
-    constructor(server: Server) {
+    constructor(server: Server, db: DataSource) {
         this.server = server;
+        this.db = db;
         this.testApi();
     }
 
@@ -14,6 +17,9 @@ export default class App {
                 `Executando servidor em http://localhost:${this.server.getPort()}`
             );
         });
+        this.db.initialize()
+            .then(() => console.log("Conexão com o banco estabelecida!"))
+            .catch((error) => console.error(`Erro ao estabelecer conexão com o banco => ${error}`))
     }
 
     public testApi() {
