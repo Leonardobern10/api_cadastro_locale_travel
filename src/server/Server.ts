@@ -1,7 +1,7 @@
 import { Application } from 'express';
+import express from "express";
 import 'dotenv/config';
 import ClientRouter from 'routes/ClientRouter';
-import ClientService from 'services/ClientService';
 
 export default class Server {
     private app: Application;
@@ -12,6 +12,7 @@ export default class Server {
         this.app = app;
         this.port = port;
         this.clientRouter = router;
+        this.app.use(express.json())
         this.app.use('/clients', this.clientRouter.getRouter())
     }
 
@@ -29,5 +30,10 @@ export default class Server {
 
     public setPort(port: number) {
         this.port = port;
+    }
+    public testApi(): void {
+        this.app.use('/', (req, res) => {
+            res.status(200).json({ "message": "Tudo certo!" })
+        })
     }
 }
