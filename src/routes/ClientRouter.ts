@@ -1,20 +1,31 @@
 import ClientController from "controllers/ClientController";
-import { Application, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 
 export default class ClientRouter {
       private router: Router;
       private controller: ClientController;
 
-      constructor(app: Application, controller: ClientController) {
+      constructor(controller: ClientController) {
             this.router = Router();
             this.controller = controller;
             this.registerRoutes();
-            app.use("/clients", this.router);
       }
 
       private registerRoutes() {
-            this.router.get('/', (req: Request, res: Response) => {
-                  res.json({ message: "Listando clientes..." })
+            this.create();
+            this.all();
+      }
+
+      private create(): void {
+            this.router.post('/', async (req: Request, res: Response) => {
+                  console.log(req.body);
+                  await this.controller.saveClient(req, res);
+            })
+      }
+
+      private all(): void {
+            this.router.get('/', async (req: Request, res: Response) => {
+                  await this.controller.allClients(req, res);
             })
       }
 
