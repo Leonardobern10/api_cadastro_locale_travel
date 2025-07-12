@@ -12,7 +12,7 @@ const db: DataSource = AppDataSource;
 const repository: ClientRepository = new ClientRepository(db);
 const service: ClientService = new ClientService(repository);
 const controller: ClientController = new ClientController(service);
-const clientRouter: ClientRouter = new ClientRouter(express(), controller);
+const clientRouter: ClientRouter = new ClientRouter(controller);
 
 
 const server: Server = new Server(express(), Number(process.env.PORT), clientRouter);
