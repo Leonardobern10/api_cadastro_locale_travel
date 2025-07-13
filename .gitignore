@@ -1,5 +1,4 @@
 node_modules/
 .env
-package.json
 endereco_api
 formato_bd.txt
