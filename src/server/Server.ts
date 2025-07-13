@@ -31,9 +31,10 @@ export default class Server {
     public setPort(port: number) {
         this.port = port;
     }
+
     public testApi(): void {
         this.app.use('/', (req, res) => {
-            res.status(200).json({ "message": "Tudo certo!" })
+            res.status(200).json({ "message": "API rodando corretamente!" })
         })
     }
 }
