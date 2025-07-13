@@ -14,7 +14,7 @@ export default class App {
     public init(): void {
         this.server.getApp().listen(this.server.getPort(), () => {
             console.log(
-                `Executando servidor em http://localhost:${this.server.getPort()}`
+                `Executando servidor em ${process.env.SERVER_ADDRESS}`
             );
         });
         this.db.initialize()
