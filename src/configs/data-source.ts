@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
+import ClientModel from "infra/database/models/ClientModel";
 
 export const AppDataSource = new DataSource({
       type: process.env.DB_TYPE as any,
@@ -10,7 +11,7 @@ export const AppDataSource = new DataSource({
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [__dirname + '/entities/*.ts'],
+      entities: [ClientModel],
       ssl: {
             rejectUnauthorized: false,
       },
