@@ -14,6 +14,7 @@ export default class Server {
         this.clientRouter = router;
         this.app.use(express.json())
         this.app.use('/clients', this.clientRouter.getRouter())
+        this.testApi();
     }
 
     public getApp() {
@@ -32,7 +33,7 @@ export default class Server {
         this.port = port;
     }
     public testApi(): void {
-        this.app.use('/', (req, res) => {
+        this.app.get('/', (req, res) => {
             res.status(200).json({ "message": "Tudo certo!" })
         })
     }

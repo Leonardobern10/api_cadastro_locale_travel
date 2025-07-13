@@ -8,7 +8,6 @@ export default class App {
     constructor(server: Server, db: DataSource) {
         this.server = server;
         this.db = db;
-        this.testApi();
     }
 
     public init(): void {
@@ -20,11 +19,5 @@ export default class App {
         this.db.initialize()
             .then(() => console.log("Conexão com o banco estabelecida!"))
             .catch((error) => console.error(`Erro ao estabelecer conexão com o banco => ${error}`))
-    }
-
-    public testApi(): void {
-        this.server.getApp().get('/', async (req, res) => {
-            res.json('Hello World!');
-        });
     }
 }
