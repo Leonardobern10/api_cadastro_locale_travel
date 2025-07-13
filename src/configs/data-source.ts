@@ -1,4 +1,3 @@
-import ClientModel from "infra/database/models/ClientModel";
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
@@ -11,8 +10,8 @@ export const AppDataSource = new DataSource({
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true,
-      logging: true,
-      entities: [ClientModel],
-      subscribers: [],
-      migrations: []
+      entities: [__dirname + '/entities/*.ts'],
+      ssl: {
+            rejectUnauthorized: false,
+      },
 })
