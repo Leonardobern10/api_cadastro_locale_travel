@@ -24,7 +24,7 @@ export default class App {
 
     public testApi(): void {
         this.server.getApp().get('/', async (req, res) => {
-            res.json('Hello World!');
+            res.status(200).json({ message: "API Locale Travel está ativa 🚀" });
         });
     }
 }
