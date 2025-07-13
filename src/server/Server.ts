@@ -13,8 +13,8 @@ export default class Server {
         this.port = port;
         this.clientRouter = router;
         this.app.use(express.json())
-        this.testApi();
         this.app.use('/clients', this.clientRouter.getRouter())
+        this.testApi();
     }
 
     public getApp() {
