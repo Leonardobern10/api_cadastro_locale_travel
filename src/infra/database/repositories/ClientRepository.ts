@@ -1,4 +1,3 @@
-import ClientDTO from "application/ClientDTO";
 import ClientModel from "infra/database/models/ClientModel";
 import { DataSource, Repository } from "typeorm";
 
@@ -15,5 +14,13 @@ export default class ClientRepository {
 
       public async allClients(): Promise<ClientModel[]> {
             return await this.repository.find();
+      }
+
+      public async getOneClient(client_id: string): Promise<ClientModel | null> {
+            return await this.repository.findOne({
+                  where: {
+                        client_id: client_id
+                  }
+            })
       }
 }
