@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import ClientService from "services/ClientService";
 import ClientDTO from "application/ClientDTO";
 
+/**
+ * Classe CONTROLLER responsável por receber o conteudo
+ * da requisição e direcionar para o serviço correto.
+ */
 export default class ClientController {
       private clientService: ClientService;
 
@@ -9,6 +13,11 @@ export default class ClientController {
             this.clientService = clientService;
       }
 
+      /**
+       * Método que permite acionar a ClientService.
+       * 
+       * @returns ClientService
+       */
       public getClientService(): ClientService {
             return this.clientService;
       }
@@ -56,4 +65,6 @@ export default class ClientController {
                   res.status(500).json({ "Error": "Erro ao obter usuário!" });
             }
       }
+
+
 }
