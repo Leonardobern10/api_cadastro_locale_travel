@@ -14,8 +14,43 @@ export default class ClientRouter {
       private registerRoutes() {
             this.create();
             this.all();
+            this.getOneClient();
+            this.deleteById();
       }
 
+      /**
+       * @swagger
+       * /api/v1/clients:
+       *   post:
+       *     summary: Cria um novo cliente
+       *     tags: [CLIENTS]
+       *     requestBody:
+       *       required: true
+       *       content:
+       *         application/json:
+       *           schema:
+       *             type: object
+       *             required:
+       *               - nome
+       *               - sobrenome
+       *               - idade
+       *               - email
+       *               - senha
+       *             properties:
+       *               nome:
+       *                type: string
+       *               sobrenome:
+       *                type: string
+       *               idade:
+       *                type: integer
+       *               email:
+       *                type: string
+       *               senha:
+       *                type: string
+       *     responses:
+       *       201:
+       *         description: Cliente criado
+       */
       private create(): void {
             this.router.post('/', async (req: Request, res: Response) => {
                   console.log(req.body);
@@ -23,9 +58,71 @@ export default class ClientRouter {
             })
       }
 
+      /**
+       * @swagger
+       * /api/v1/clients/{id}:
+       *   get:
+       *     summary: Busca um cliente pelo ID
+       *     tags: [CLIENTS]
+       *     parameters:
+       *       - in: path
+       *         name: id
+       *         required: true
+       *         schema:
+       *           type: string
+       *         description: ID do cliente a ser buscado
+       *     responses:
+       *       200:
+       *         description: Cliente encontrado com sucesso
+       *       404:
+       *         description: Cliente não encontrado
+       */
+      private getOneClient(): void {
+            this.router.get('/:id', async (req: Request, res: Response) => {
+                  await this.controller.getOneClient(req, res);
+            })
+      }
+
+      /**
+      * @swagger
+      * /api/v1/clients:
+      *    get:
+      *      summary: Obtém todos os registros de CLIENT
+      *      tags: [CLIENTS]          
+      *      responses:
+      *          200:
+      *                description: Acessa todos os registros
+      */
       private all(): void {
             this.router.get('/', async (req: Request, res: Response) => {
-                  await this.controller.allClients(req, res);
+                  await this.controller.getAllClients(req, res);
+            })
+      }
+
+      /**
+       * @swagger
+       * /api/v1/clients/{id}:
+       *    delete:
+       *          summary: Remove um registro de CLIENT pelo ID
+       *          tags: [CLIENTS]
+       *          parameters:
+       *              - in: path
+       *                name: id
+       *                required: true
+       *                schema:
+       *                      type: string
+       *                description: ID do CLIENT a ser removido
+       *          responses:
+       *                204:
+       *                      description: Registo removido com sucesso
+       *                400:
+       *                      description: Erro ao remover registro
+       *                500:
+       *                      description: Não foi possivel processar a solicitação
+       */
+      private deleteById(): void {
+            this.getRouter().delete('/:id', async (req: Request, res: Response) => {
+                  this.controller.delClientById(req, res);
             })
       }
 

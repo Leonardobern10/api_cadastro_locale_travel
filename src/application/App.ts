@@ -15,6 +15,7 @@ export default class App {
             console.log(
                 `Executando servidor em ${process.env.SERVER_ADDRESS}`
             );
+            console.log(`Documentação disponível em http://localhost:${this.server.getPort()}/api-docs`)
         });
         this.db.initialize()
             .then(() => console.log("Conexão com o banco estabelecida!"))
