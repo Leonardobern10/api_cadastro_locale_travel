@@ -16,7 +16,7 @@ export default class Server {
         this.clientRouter = router;
         this.app.use(express.json())
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-        this.app.use('/clients', this.clientRouter.getRouter());
+        this.app.use('/api/v1/clients', this.clientRouter.getRouter());
         this.testApi();
     }
 

@@ -20,7 +20,7 @@ export default class ClientRouter {
 
       /**
        * @swagger
-       * /clients:
+       * /api/v1/clients:
        *   post:
        *     summary: Cria um novo cliente
        *     tags: [CLIENTS]
@@ -60,13 +60,13 @@ export default class ClientRouter {
 
       /**
        * @swagger
-       * /clients/{clientId}:
+       * /api/v1/clients/{id}:
        *   get:
        *     summary: Busca um cliente pelo ID
        *     tags: [CLIENTS]
        *     parameters:
        *       - in: path
-       *         name: clientId
+       *         name: id
        *         required: true
        *         schema:
        *           type: string
@@ -78,14 +78,14 @@ export default class ClientRouter {
        *         description: Cliente não encontrado
        */
       private getOneClient(): void {
-            this.router.get('/:clientId', async (req: Request, res: Response) => {
+            this.router.get('/:id', async (req: Request, res: Response) => {
                   await this.controller.getOneClient(req, res);
             })
       }
 
       /**
       * @swagger
-      * /clients :
+      * /api/v1/clients:
       *    get:
       *      summary: Obtém todos os registros de CLIENT
       *      tags: [CLIENTS]          
@@ -101,19 +101,19 @@ export default class ClientRouter {
 
       /**
        * @swagger
-       * /clients/{clientId}:
+       * /api/v1/clients/{id}:
        *    delete:
        *          summary: Remove um registro de CLIENT pelo ID
        *          tags: [CLIENTS]
        *          parameters:
        *              - in: path
-       *                name: clientId
+       *                name: id
        *                required: true
        *                schema:
        *                      type: string
        *                description: ID do CLIENT a ser removido
        *          responses:
-       *                200:
+       *                204:
        *                      description: Registo removido com sucesso
        *                400:
        *                      description: Erro ao remover registro
@@ -121,7 +121,7 @@ export default class ClientRouter {
        *                      description: Não foi possivel processar a solicitação
        */
       private deleteById(): void {
-            this.getRouter().delete('/:clientId', async (req: Request, res: Response) => {
+            this.getRouter().delete('/:id', async (req: Request, res: Response) => {
                   this.controller.delClientById(req, res);
             })
       }

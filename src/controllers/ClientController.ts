@@ -48,10 +48,10 @@ export default class ClientController {
 
       public async getOneClient(req: Request, res: Response): Promise<void> {
             try {
-                  const id = req.params.clientId;
+                  const id = req.params.id;
                   const client = await this.getClientService().getOnClientService(String(id));
                   if (!client) {
-                        res.status(200).json({ "message": "Usuário não encontrado!" });
+                        res.status(404).json({ "message": "Usuário não encontrado!" });
                   }
                   res.status(200).json(client);
             } catch (error) {
@@ -65,9 +65,9 @@ export default class ClientController {
                   const id: string = req.params.clientId;
                   const delClient: boolean = await this.getClientService().deleteClientService(id);
                   if (!delClient) {
-                        res.status(400).json({ "Erro": "Não foi possivel remover o usuário!" });
+                        res.status(404).json({ "Erro": "Não foi possivel remover o usuário!" });
                   }
-                  res.status(200).json({ "Message": "Usuário removido com sucesso!" })
+                  res.status(204).send();
             } catch (error) {
                   console.error("Erro ao remover usuário: " + error);
                   res.status(500).json({ "Erro": "Não foi possível processar sua solicitação. Tente novamente!" })
