@@ -2,7 +2,6 @@ import ClientDTO from "application/ClientDTO";
 import ClientMapper from "application/mappers/ClientMapper";
 import PasswordCrypt from "infra/cripto/PasswordCrypt";
 import ClientModel from "infra/database/models/ClientModel";
-import { Roles } from "infra/database/models/Roles";
 import ClientRepository from "infra/database/repositories/ClientRepository";
 import { DeleteResult } from "typeorm";
 
