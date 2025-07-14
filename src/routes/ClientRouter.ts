@@ -14,6 +14,7 @@ export default class ClientRouter {
       private registerRoutes() {
             this.create();
             this.all();
+            this.getOneClient();
       }
 
       private create(): void {
@@ -23,9 +24,15 @@ export default class ClientRouter {
             })
       }
 
+      private getOneClient(): void {
+            this.router.get('/:clientId', async (req: Request, res: Response) => {
+                  await this.controller.getOneClient(req, res);
+            })
+      }
+
       private all(): void {
             this.router.get('/', async (req: Request, res: Response) => {
-                  await this.controller.allClients(req, res);
+                  await this.controller.getAllClients(req, res);
             })
       }
 
