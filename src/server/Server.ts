@@ -1,7 +1,9 @@
 import { Application } from 'express';
 import express from "express";
+import swaggerUi from 'swagger-ui-express';
 import 'dotenv/config';
 import ClientRouter from 'routes/ClientRouter';
+import { swaggerSpec } from 'docs/swagger';
 
 export default class Server {
     private app: Application;
@@ -13,7 +15,8 @@ export default class Server {
         this.port = port;
         this.clientRouter = router;
         this.app.use(express.json())
-        this.app.use('/clients', this.clientRouter.getRouter())
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+        this.app.use('/clients', this.clientRouter.getRouter());
         this.testApi();
     }
 
