@@ -105,12 +105,12 @@ export default class ClientRouter {
        *          summary: Remove um registro de CLIENT pelo ID
        *          tags: [CLIENTS]
        *          parameters:
-      *                 - in: path
-      *                 name: clientId
-      *                 required: true
-      *                 schema:
-      *                       type: string
-      *                 description: ID do CLIENT a ser removido
+       *              - in: path
+       *                name: clientId
+       *                required: true
+       *                schema:
+       *                      type: string
+       *                description: ID do CLIENT a ser removido
        *          responses:
        *                200:
        *                      description: Registo removido com sucesso
@@ -118,7 +118,6 @@ export default class ClientRouter {
        *                      description: Erro ao remover registro
        *                500:
        *                      description: Não foi possivel processar a solicitação
-       * 
        */
 
       public getRouter(): Router {
