@@ -26,7 +26,7 @@ export default class ClientController {
             }
       }
 
-      public async allClients(req: Request, res: Response): Promise<void> {
+      public async getAllClients(req: Request, res: Response): Promise<void> {
             try {
                   const allClients = await this.clientService.getAllClientsService();
                   res.status(200).json(allClients);
@@ -35,5 +35,25 @@ export default class ClientController {
                   res.status(500).json({ "error": "Erro ao ĺistar usuários!" })
             }
 
+      }
+
+      public async getOneClient(req: Request, res: Response): Promise<void> {
+            try {
+                  const id = req.params.clientId;
+                  console.log(id)
+                  const client = await this.getClientService().getOnClientService(String(id));
+
+                  if (!client) {
+                        res.status(200).json({ "message": "Usuário não encontrado!" });
+                  }
+
+                  console.log(client);
+
+                  res.status(200).json(client);
+
+            } catch (error) {
+                  console.error(`Erro ao obter usuário unico: ${error}`);
+                  res.status(500).json({ "Error": "Erro ao obter usuário!" });
+            }
       }
 }
