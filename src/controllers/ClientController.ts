@@ -49,20 +49,28 @@ export default class ClientController {
       public async getOneClient(req: Request, res: Response): Promise<void> {
             try {
                   const id = req.params.clientId;
-                  console.log(id)
                   const client = await this.getClientService().getOnClientService(String(id));
-
                   if (!client) {
                         res.status(200).json({ "message": "Usuário não encontrado!" });
                   }
-
-                  console.log(client);
-
                   res.status(200).json(client);
-
             } catch (error) {
                   console.error(`Erro ao obter usuário unico: ${error}`);
                   res.status(500).json({ "Error": "Erro ao obter usuário!" });
+            }
+      }
+
+      public async delClientById(req: Request, res: Response): Promise<void> {
+            try {
+                  const id: string = req.params.clientId;
+                  const delClient: boolean = await this.getClientService().deleteClientService(id);
+                  if (!delClient) {
+                        res.status(400).json({ "Erro": "Não foi possivel remover o usuário!" });
+                  }
+                  res.status(200).json({ "Message": "Usuário removido com sucesso!" })
+            } catch (error) {
+                  console.error("Erro ao remover usuário: " + error);
+                  res.status(500).json({ "Erro": "Não foi possível processar sua solicitação. Tente novamente!" })
             }
       }
 

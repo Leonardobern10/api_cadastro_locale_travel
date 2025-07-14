@@ -87,7 +87,7 @@ export default class ClientRouter {
       * /clients :
       *    get:
       *      summary: Obtém todos os registros de CLIENT
-      *      tags: [CLIENTS]
+      *      tags: [CLIENTS]          
       *      responses:
       *          200:
       *                description: Acessa todos os registros
@@ -97,6 +97,29 @@ export default class ClientRouter {
                   await this.controller.getAllClients(req, res);
             })
       }
+
+      /**
+       * @swagger
+       * /clients/{clientId}:
+       *    delete:
+       *          summary: Remove um registro de CLIENT pelo ID
+       *          tags: [CLIENTS]
+       *          parameters:
+      *                 - in: path
+      *                 name: clientId
+      *                 required: true
+      *                 schema:
+      *                       type: string
+      *                 description: ID do CLIENT a ser removido
+       *          responses:
+       *                200:
+       *                      description: Registo removido com sucesso
+       *                400:
+       *                      description: Erro ao remover registro
+       *                500:
+       *                      description: Não foi possivel processar a solicitação
+       * 
+       */
 
       public getRouter(): Router {
             return this.router;
