@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ClientService from "services/ClientService";
 import ClientDTO from "application/ClientDTO";
+import { createClientHateoas } from "utils/hateoas";
 
 /**
  * Classe CONTROLLER responsável por receber o conteudo
@@ -38,7 +39,8 @@ export default class ClientController {
       public async getAllClients(req: Request, res: Response): Promise<void> {
             try {
                   const allClients = await this.clientService.getAllClientsService();
-                  res.status(200).json(allClients);
+                  const response = createClientHateoas(allClients);
+                  res.status(200).json(response);
             } catch (error) {
                   console.error(error);
                   res.status(500).json({ "error": "Erro ao ĺistar usuários!" })
@@ -53,7 +55,9 @@ export default class ClientController {
                   if (!client) {
                         res.status(404).json({ "message": "Usuário não encontrado!" });
                   }
-                  res.status(200).json(client);
+
+                  const response = createClientHateoas(client);
+                  res.status(200).json(response);
             } catch (error) {
                   console.error(`Erro ao obter usuário unico: ${error}`);
                   res.status(500).json({ "Error": "Erro ao obter usuário!" });
