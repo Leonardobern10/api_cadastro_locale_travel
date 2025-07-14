@@ -3,3 +3,4 @@ node_modules/
 package.json
 endereco_api
 formato_bd.txt
+src/configs/data-source.ts
