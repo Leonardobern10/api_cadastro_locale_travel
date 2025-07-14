@@ -35,4 +35,8 @@ export default class ClientService {
       public async getAllClientsService(): Promise<ClientModel[]> {
             return await this.getClienteRepository().allClients();
       }
+
+      public async getOnClientService(clientId: string): Promise<ClientModel | null> {
+            return await this.getClienteRepository().getOneClient(clientId);
+      }
 }
