@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import ClientService from "services/ClientService";
 import ClientDTO from "application/ClientDTO";
 import { createClientHateoas } from "utils/hateoas";
+import { clientSchema } from "application/validators/clientSchema";
 
 /**
  * Classe CONTROLLER responsável por receber o conteudo
@@ -24,10 +25,9 @@ export default class ClientController {
       }
 
       public async saveClient(req: Request, res: Response): Promise<void> {
-            console.log(req.body)
             try {
-                  const { nome, sobrenome, idade, email, senha, role } = req.body;
-                  const dto = new ClientDTO(nome, sobrenome, idade, email, senha, role)
+                  const data = clientSchema.parse(req.body);
+                  const dto = new ClientDTO(data.nome, data.sobrenome, data.idade, data.email, data.senha, data.role);
                   const client = await this.getClientService().saveClientService(dto);
                   res.status(201).json(client);
             } catch (erro) {
