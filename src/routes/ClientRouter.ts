@@ -15,6 +15,7 @@ export default class ClientRouter {
             this.create();
             this.all();
             this.getOneClient();
+            this.deleteById();
       }
 
       /**
@@ -119,6 +120,11 @@ export default class ClientRouter {
        *                500:
        *                      description: Não foi possivel processar a solicitação
        */
+      private deleteById(): void {
+            this.getRouter().delete('/:clientId', async (req: Request, res: Response) => {
+                  this.controller.delClientById(req, res);
+            })
+      }
 
       public getRouter(): Router {
             return this.router;
