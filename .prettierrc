@@ -3,7 +3,7 @@
     "singleQuote": true,
     "trailingComma": "none",
     "printWidth": 80,
-    "tabWidth": 4,
+    "tabWidth": 5,
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
     "arrowParens": "always"
