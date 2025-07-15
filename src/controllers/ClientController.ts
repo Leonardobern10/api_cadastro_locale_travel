@@ -51,7 +51,7 @@ export default class ClientController {
       public async getOneClient(req: Request, res: Response): Promise<void> {
             try {
                   const id = req.params.id;
-                  const client = await this.getClientService().getOnClientService(String(id));
+                  const client = await this.getClientService().getOneClientService(String(id));
                   if (!client) {
                         res.status(404).json({ "message": "Usuário não encontrado!" });
                   }
@@ -61,6 +61,23 @@ export default class ClientController {
             } catch (error) {
                   console.error(`Erro ao obter usuário unico: ${error}`);
                   res.status(500).json({ "Error": "Erro ao obter usuário!" });
+            }
+      }
+
+      public async updateClientById(req: Request, res: Response): Promise<void> {
+            try {
+                  const id = req.params.id;
+                  const data = clientSchema.parse(req.body);
+                  const dto: ClientDTO = new ClientDTO(data.nome, data.sobrenome, data.idade, data.email, data.senha, data.role)
+                  const client = await this.getClientService().updateClientService(id, dto);
+
+                  if (!client) {
+                        res.status(404).json({ "MESSAGE": "Usuário não encontrado!" });
+                  }
+
+                  res.status(200).json({ "MESSAGE": 'Usuário atualizado com sucesso!', client })
+            } catch (error) {
+                  res.status(500).json({ "ERRO": "Erro ao processar solicitação! Tente novamente." })
             }
       }
 

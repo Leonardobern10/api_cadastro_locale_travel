@@ -36,8 +36,13 @@ export default class ClientService {
             return await this.getClienteRepository().allClients();
       }
 
-      public async getOnClientService(clientId: string): Promise<ClientModel | null> {
+      public async getOneClientService(clientId: string): Promise<ClientModel | null> {
             return await this.getClienteRepository().oneClientById(clientId);
+      }
+
+      public async updateClientService(clientId: string, newClientDTO: ClientDTO): Promise<ClientModel | null> {
+            const model = ClientMapper.toModel(newClientDTO);
+            return this.getClienteRepository().updateClient(clientId, model);
       }
 
       public async deleteClientService(clientId: string): Promise<boolean> {

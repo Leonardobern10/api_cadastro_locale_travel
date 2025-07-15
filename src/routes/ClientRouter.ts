@@ -16,6 +16,7 @@ export default class ClientRouter {
             this.all();
             this.getOneClient();
             this.deleteById();
+            this.updateById();
       }
 
       /**
@@ -88,7 +89,7 @@ export default class ClientRouter {
       * /api/v1/clients:
       *    get:
       *      summary: Obtém todos os registros de CLIENT
-      *      tags: [CLIENTS]          
+      *      tags: [CLIENTS]       
       *      responses:
       *          200:
       *                description: Acessa todos os registros
@@ -96,6 +97,59 @@ export default class ClientRouter {
       private all(): void {
             this.router.get('/', async (req: Request, res: Response) => {
                   await this.controller.getAllClients(req, res);
+            })
+      }
+
+      /**
+       * @swagger
+       * /api/v1/clients:
+       *    put:
+       *        summary: Atualiza um registro com as novas informações enviadas
+       *        tags: [CLIENTS]
+       *        parameters:
+       *          - in: path
+       *            name: id
+       *            required: true
+       *            schema: 
+       *              type: string
+       *            description: ID do registro a ser atualizado
+       *        requestBody:
+       *          required: true
+       *          content: 
+       *              application/json:
+       *                schema:
+       *                  type: object
+       *                  required:
+       *                    - nome
+       *                    - sobrenome
+       *                    - idade
+       *                    - email
+       *                    - senha
+       *                    - role
+       *                  properties:
+       *                    nome: 
+       *                      type: string
+       *                    sobrenome:
+       *                      type: string
+       *                    idade:
+       *                      type: integer
+       *                    email:
+       *                      type: string
+       *                    senha:
+       *                      type: string
+       *                    role:
+       *                      type: string
+       *        responses:
+       *          200:
+       *              description: Usuário atualizado com sucesso
+       *          404:
+       *              description: Usuário não encontrado
+       *          500:
+       *              description: Erro ao processar solicitação
+       */
+      private updateById(): void {
+            this.router.put('/:id', async (req: Request, res: Response) => {
+                  await this.controller.updateClientById(req, res);
             })
       }
 

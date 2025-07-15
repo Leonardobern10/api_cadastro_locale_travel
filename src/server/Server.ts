@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import 'dotenv/config';
 import ClientRouter from 'routes/ClientRouter';
 import { swaggerSpec } from 'docs/swagger';
+import cors from 'cors';
 
 export default class Server {
     private app: Application;
@@ -15,6 +16,10 @@ export default class Server {
         this.port = port;
         this.clientRouter = router;
         this.app.use(express.json())
+        this.app.use(cors({
+            origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        }))
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         this.app.use('/api/v1/clients', this.clientRouter.getRouter());
         this.testApi();

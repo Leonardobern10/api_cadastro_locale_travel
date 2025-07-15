@@ -1,5 +1,5 @@
 import ClientModel from "infra/database/models/ClientModel";
-import { DataSource, DeleteResult, Repository } from "typeorm";
+import { DataSource, DeleteResult, Repository, UpdateResult } from "typeorm";
 
 export default class ClientRepository {
       private repository: Repository<ClientModel>;
@@ -26,5 +26,14 @@ export default class ClientRepository {
 
       public async deleteClientById(client_id: string): Promise<DeleteResult> {
             return await this.repository.delete(client_id);
+      }
+
+      public async updateClient(client_id: string, newClient: ClientModel): Promise<ClientModel | null> {
+            let client = await this.repository.findOneBy({ 'client_id': client_id });
+            if (!client) {
+                  return null;
+            }
+            client = { ...newClient };
+            return await this.repository.save(client);
       }
 }
