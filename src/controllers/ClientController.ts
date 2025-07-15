@@ -70,13 +70,12 @@ export default class ClientController {
                   const data = clientSchema.parse(req.body);
                   const dto: ClientDTO = new ClientDTO(data.nome, data.sobrenome, data.idade, data.email, data.senha, data.role)
                   const client = await this.getClientService().updateClientService(id, dto);
-
                   if (!client) {
                         res.status(404).json({ "MESSAGE": "Usuário não encontrado!" });
                   }
-
                   res.status(200).json({ "MESSAGE": 'Usuário atualizado com sucesso!', client })
             } catch (error) {
+                  console.error(error);
                   res.status(500).json({ "ERRO": "Erro ao processar solicitação! Tente novamente." })
             }
       }
