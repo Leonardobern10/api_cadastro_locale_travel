@@ -157,6 +157,58 @@ export default class UserRouter extends ClientRouter {
           });
      }
 
+     /**
+      * @swagger
+      * /api/v1/users/login:
+      *    post:
+      *        summary: Permite o login do usuário
+      *        tags: [USERS]
+      *        requestBody:
+      *          required: true
+      *          content:
+      *              application/json:
+      *                schema:
+      *                  type: object
+      *                  required:
+      *                    - email
+      *                    - senha
+      *                  properties:
+      *                    email:
+      *                      type: string
+      *                      example: usuaria@email.com
+      *                    senha:
+      *                      type: string
+      *                      example: senhaSegura123
+      *        responses:
+      *          200:
+      *              description: Login efetuado com sucesso
+      *              content:
+      *                application/json:
+      *                  schema:
+      *                    type: object
+      *                    properties:
+      *                      token:
+      *                         type: string
+      *                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      *                      user:
+      *                         type: object
+      *                         properties:
+      *                            id:
+      *                              type: string
+      *                              example: 123
+      *                            nome:
+      *                              type: string
+      *                              example: Leonardo
+      *                            email:
+      *                              type: string
+      *                              example: usuario@email.com
+      *          401:
+      *              description: Credenciais inválidas
+      *          404:
+      *              description: Usuário não encontrado
+      *          500:
+      *              description: Erro no processamento. Tente novamente mais tarde!
+      */
      protected login(): void {
           this.getRouter().post(
                '/login',
@@ -165,6 +217,31 @@ export default class UserRouter extends ClientRouter {
                }
           );
      }
+
+     /**
+      * @swagger
+      * /api/v1/users/logout:
+      *   post:
+      *     summary: Encerra a sessão do usuário
+      *     tags: [USERS]
+      *     security:
+      *       - bearerAuth: []  # ou outro nome conforme seu esquema
+      *     responses:
+      *       200:
+      *         description: Logout efetuado com sucesso
+      *         content:
+      *           application/json:
+      *             schema:
+      *               type: object
+      *               properties:
+      *                 message:
+      *                   type: string
+      *                   example: Logout efetuado com sucesso.
+      *       404:
+      *         description: Usuário não encontrado
+      *       500:
+      *         description: Erro no processamento. Tente novamente mais tarde!
+      */
 
      protected logout(): void {
           this.getRouter().post(
