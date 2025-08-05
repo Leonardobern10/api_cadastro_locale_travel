@@ -22,21 +22,41 @@ export default class Server {
           this.testApi();
      }
 
+     /**
+      * Retorna a instância do Express Application.
+      * @returns Application Express
+      */
      public getApp() {
           return this.app;
      }
 
+     /**
+      * Retorna a porta configurada para o servidor.
+      * @returns Número da porta
+      */
      public getPort() {
           return this.port;
      }
 
+     /**
+      * Define a instância do Express Application.
+      * @param app Nova instância do Application
+      */
      public setApp(app: Application) {
           this.app = app;
      }
 
+     /**
+      * Define a porta do servidor.
+      * @param port Nova porta
+      */
      public setPort(port: number) {
           this.port = port;
      }
+
+     /**
+      * Rota de teste para verificar se a API está funcionando.
+      */
      public testApi(): void {
           this.app.get('/', (req, res) => {
                res.status(200).json({ message: 'Tudo certo!' });

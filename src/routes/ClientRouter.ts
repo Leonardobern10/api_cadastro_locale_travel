@@ -24,10 +24,18 @@ export default abstract class ClientRouter {
 
      protected abstract login(): void;
 
+     /**
+      * Retorna o router Express associado a este ClientRouter.
+      * @returns Instância do Router
+      */
      public getRouter(): Router {
           return this.router;
      }
 
+     /**
+      * Retorna o controller associado a este ClientRouter.
+      * @returns Instância do ClientController
+      */
      public getController(): ClientController {
           return this.controller;
      }

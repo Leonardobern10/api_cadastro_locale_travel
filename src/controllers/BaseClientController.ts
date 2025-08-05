@@ -14,7 +14,6 @@ import PasswordCrypt from 'infra/cripto/PasswordCrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import handleZodError from 'application/handlers/handleZodError';
-import { ZodErrorType } from 'domain/type/ZodErrorType';
 import { ZodErrorResponseType } from 'domain/type/ZodErrorResponseType';
 
 export default class BaseClientController implements ClientControllerInterface {
@@ -26,6 +25,13 @@ export default class BaseClientController implements ClientControllerInterface {
           this.role = role;
      }
 
+     /**
+      * Cria um novo cliente (admin ou usuário) a partir dos dados da requisição.
+      * Realiza validação dos dados, instancia o DTO correto e salva no banco.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      * @returns Response com status 201 e dados do cliente criado ou erro de validação
+      */
      public async save(req: Request, res: Response): Promise<Response> {
           try {
                const data = clientSchema.parse(req.body);
@@ -64,6 +70,12 @@ export default class BaseClientController implements ClientControllerInterface {
           }
      }
 
+     /**
+      * Realiza o login do cliente, valida credenciais e retorna token JWT em cookie.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      * @returns Response com status 200 e dados do cliente ou erro de autenticação
+      */
      public async login(req: Request, res: Response): Promise<Response> {
           try {
                const data = req.body;
@@ -125,6 +137,12 @@ export default class BaseClientController implements ClientControllerInterface {
           }
      }
 
+     /**
+      * Realiza o logout do cliente, limpando o cookie de autenticação.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      * @returns Response com status 200 e mensagem de sucesso
+      */
      public async logout(req: Request, res: Response): Promise<Response> {
           try {
                res.clearCookie('token', {
@@ -143,6 +161,11 @@ export default class BaseClientController implements ClientControllerInterface {
           }
      }
 
+     /**
+      * Retorna todos os clientes do tipo (admin ou usuário) conforme o controller.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      */
      public async getAll(req: Request, res: Response): Promise<void> {
           const clients =
                this.role === Roles.ADMIN
@@ -152,6 +175,11 @@ export default class BaseClientController implements ClientControllerInterface {
           res.status(200).json(response);
      }
 
+     /**
+      * Busca um cliente pelo ID, conforme o tipo (admin ou usuário).
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      */
      public async getOne(req: Request, res: Response): Promise<void> {
           const id = req.params.id;
           const client =
@@ -165,6 +193,11 @@ export default class BaseClientController implements ClientControllerInterface {
           res.status(200).json(this.getHateoas(client));
      }
 
+     /**
+      * Atualiza os dados de um cliente pelo ID.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      */
      public async updateById(req: Request, res: Response): Promise<void> {
           try {
                const id = req.params.id;
@@ -184,6 +217,11 @@ export default class BaseClientController implements ClientControllerInterface {
           }
      }
 
+     /**
+      * Remove um cliente pelo ID.
+      * @param req Requisição HTTP
+      * @param res Resposta HTTP
+      */
      public async delById(req: Request, res: Response): Promise<void> {
           const id = req.params.id;
           const deleted = await this.service.deleteClientService(id);
@@ -195,6 +233,11 @@ export default class BaseClientController implements ClientControllerInterface {
           res.status(204).send();
      }
 
+     /**
+      * Gera os links HATEOAS para o cliente conforme o tipo (admin ou usuário).
+      * @param client Dados do cliente
+      * @returns Objeto com links HATEOAS
+      */
      private getHateoas(client: any) {
           return this.role === Roles.ADMIN
                ? createHateoas(client, '/api/v1/admin')
