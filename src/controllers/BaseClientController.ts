@@ -13,6 +13,9 @@ import LoginDTO from 'application/dto/LoginDTO';
 import PasswordCrypt from 'infra/cripto/PasswordCrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import handleZodError from 'application/handlers/handleZodError';
+import { ZodErrorType } from 'domain/type/ZodErrorType';
+import { ZodErrorResponseType } from 'domain/type/ZodErrorResponseType';
 
 export default class BaseClientController implements ClientControllerInterface {
      private readonly service: ClientService;
@@ -43,17 +46,17 @@ export default class BaseClientController implements ClientControllerInterface {
                                 data.senha
                            );
                const client = await this.service.saveClientService(dto);
-               console.log(client);
                const hateoas = this.getHateoas(client);
                return res.status(201).json(hateoas);
           } catch (err) {
-               console.error(err);
                if (err instanceof ZodError) {
+                    let allErrors: Array<ZodErrorResponseType> =
+                         handleZodError(err);
                     return res.status(400).json({
-                         message: 'Erro de validação dos dados'
+                         message: 'Erro ao registrar usuário.',
+                         errors: allErrors
                     });
                }
-
                return res.status(500).json({
                     message: 'Erro interno ao criar cliente',
                     error: (err as Error).message
@@ -98,7 +101,6 @@ export default class BaseClientController implements ClientControllerInterface {
                     expiresIn: '15m'
                });
 
-               console.log(`TOKEN: ${token}`);
                return res
                     .status(200)
                     .cookie('token', token, {
@@ -124,7 +126,6 @@ export default class BaseClientController implements ClientControllerInterface {
      }
 
      public async logout(req: Request, res: Response): Promise<Response> {
-          console.log('Logout acionado!');
           try {
                res.clearCookie('token', {
                     httpOnly: true,
