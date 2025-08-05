@@ -3,10 +3,21 @@ import bcrypt from 'bcrypt';
 export default class PasswordCrypt {
      private readonly salt = 10;
 
+     /**
+      * Criptografa uma senha usando bcrypt.
+      * @param password Senha em texto puro
+      * @returns Senha criptografada
+      */
      public async toCrypt(password: string): Promise<string> {
           return await bcrypt.hash(password, this.salt);
      }
 
+     /**
+      * Compara uma senha recebida com o hash armazenado.
+      * @param passwordReceived Senha recebida
+      * @param passwordStored Hash armazenado
+      * @returns true se coincidem, false caso contrário
+      */
      public async toCompare(
           passwordReceived: string,
           passwordStored: string

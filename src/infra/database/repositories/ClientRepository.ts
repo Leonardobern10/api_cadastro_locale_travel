@@ -9,10 +9,17 @@ export default class ClientRepository {
           this.repository = dataSource.getRepository(ClientModel);
      }
 
+     /**
+      * Salva um cliente no banco de dados.
+      * @param client Instância de ClientModel
+      */
      public async saveClient(client: ClientModel): Promise<ClientModel> {
           return await this.repository.save(client);
      }
 
+     /**
+      * Retorna todos os clientes com papel de ADMIN.
+      */
      public async allAdmins(): Promise<ClientModel[]> {
           return await this.repository.find({
                where: {
@@ -21,6 +28,9 @@ export default class ClientRepository {
           });
      }
 
+     /**
+      * Retorna todos os clientes com papel de USER.
+      */
      public async allUsers(): Promise<ClientModel[]> {
           return await this.repository.find({
                where: {
@@ -29,6 +39,10 @@ export default class ClientRepository {
           });
      }
 
+     /**
+      * Busca um cliente pelo e-mail.
+      * @param email E-mail do cliente
+      */
      public async getClientByEmail(email: string): Promise<ClientModel | null> {
           return await this.repository.findOne({
                where: {
@@ -37,6 +51,10 @@ export default class ClientRepository {
           });
      }
 
+     /**
+      * Busca um admin pelo ID.
+      * @param id ID do admin
+      */
      public async getOneAdminById(id: string): Promise<ClientModel | null> {
           return await this.repository.findOne({
                where: {
@@ -46,6 +64,10 @@ export default class ClientRepository {
           });
      }
 
+     /**
+      * Busca um usuário pelo ID.
+      * @param id ID do usuário
+      */
      public async getOneUserById(id: string): Promise<ClientModel | null> {
           return await this.repository.findOne({
                where: {
@@ -55,10 +77,19 @@ export default class ClientRepository {
           });
      }
 
+     /**
+      * Remove um cliente pelo ID.
+      * @param client_id ID do cliente
+      */
      public async deleteClientById(client_id: string): Promise<DeleteResult> {
           return await this.repository.delete(client_id);
      }
 
+     /**
+      * Atualiza os dados de um cliente pelo ID.
+      * @param client_id ID do cliente
+      * @param newClient Novos dados do cliente
+      */
      public async updateClient(
           client_id: string,
           newClient: ClientModel
