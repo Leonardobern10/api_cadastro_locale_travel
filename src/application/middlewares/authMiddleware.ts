@@ -25,7 +25,6 @@ export default async function authMiddleware(
 
      try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-          console.log(decoded);
           res.locals.user = decoded;
           next();
      } catch (err) {
