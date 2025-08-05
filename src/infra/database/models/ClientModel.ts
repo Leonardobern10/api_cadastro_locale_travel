@@ -1,29 +1,28 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export default class ClientModel {
-      @PrimaryGeneratedColumn('uuid')
-      client_id!: string;
+     @PrimaryGeneratedColumn('uuid')
+     client_id!: string;
 
-      @Column('varchar')
-      nome!: string;
+     @Column('varchar')
+     nome!: string;
 
-      @Column('varchar')
-      sobrenome!: string;
+     @Column('varchar')
+     sobrenome!: string;
 
-      @Column('smallint')
-      idade!: number;
+     @Column('smallint')
+     idade!: number;
 
-      @Column('varchar')
-      email!: string;
+     @Column('varchar', { unique: true })
+     email!: string;
 
-      @Column('varchar')
-      senha!: string;
+     @Column('varchar', { length: 100 })
+     senha!: string;
 
-      @Column('varchar')
-      role!: string;
+     @Column('varchar')
+     role!: string;
 
-      @Column('timestamp')
-      created_at!: Date;
-
+     @Column('timestamp')
+     created_at!: Date;
 }

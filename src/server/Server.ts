@@ -1,48 +1,71 @@
 import { Application } from 'express';
-import express from "express";
+import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import 'dotenv/config';
-import ClientRouter from 'routes/ClientRouter';
 import { swaggerSpec } from 'docs/swagger';
 import cors from 'cors';
+import { ClientRoutersType } from 'domain/type/ClientRoutersType';
+import cookieParser from 'cookie-parser';
 
 export default class Server {
-    private app: Application;
-    private port: number;
-    private clientRouter: ClientRouter;
+     private app: Application;
+     private port: number;
+     private clientRouters: ClientRoutersType;
 
-    constructor(app: Application, port: number, router: ClientRouter) {
-        this.app = app;
-        this.port = port;
-        this.clientRouter = router;
-        this.app.use(express.json())
-        this.app.use(cors({
-            origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-            methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        }))
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-        this.app.use('/api/v1/clients', this.clientRouter.getRouter());
-        this.testApi();
-    }
+     constructor(app: Application, port: number, routers: ClientRoutersType) {
+          this.app = app;
+          this.port = port;
+          this.clientRouters = routers;
+          this.initMiddleware();
+          this.initSwagger();
+          this.initRouters();
+          this.testApi();
+     }
 
-    public getApp() {
-        return this.app;
-    }
+     public getApp() {
+          return this.app;
+     }
 
-    public getPort() {
-        return this.port;
-    }
+     public getPort() {
+          return this.port;
+     }
 
-    public setApp(app: Application) {
-        this.app = app;
-    }
+     public setApp(app: Application) {
+          this.app = app;
+     }
 
-    public setPort(port: number) {
-        this.port = port;
-    }
-    public testApi(): void {
-        this.app.get('/', (req, res) => {
-            res.status(200).json({ "message": "Tudo certo!" })
-        })
-    }
+     public setPort(port: number) {
+          this.port = port;
+     }
+     public testApi(): void {
+          this.app.get('/', (req, res) => {
+               res.status(200).json({ message: 'Tudo certo!' });
+          });
+     }
+
+     private initMiddleware(): void {
+          this.app.use(express.json());
+          this.app.use(
+               cors({
+                    origin:
+                         process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+                    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+                    credentials: true
+               })
+          );
+          this.app.use(cookieParser());
+     }
+
+     private initSwagger(): void {
+          this.app.use(
+               `${process.env.PATH_DOC}`,
+               swaggerUi.serve,
+               swaggerUi.setup(swaggerSpec)
+          );
+     }
+
+     private initRouters(): void {
+          this.app.use('/api/v1/users', this.clientRouters.user.getRouter());
+          this.app.use('/api/v1/admin', this.clientRouters.admin.getRouter());
+     }
 }
