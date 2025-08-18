@@ -12,6 +12,10 @@ export const createHateoas = (client: any, basePath: string) => {
                     href: `${basePath}/${client.client_id}`,
                     method: 'GET'
                },
+               update: {
+                    href: `${basePath}/${client.client_id}`,
+                    method: 'PUT'
+               },
                delete: {
                     href: `${basePath}/${client.client_id}`,
                     method: 'DELETE'

@@ -179,4 +179,12 @@ export default class AdminRouter extends ClientRouter {
                }
           );
      }
+
+     protected login(): void {
+          console.log('Login - Metodo nao implementado');
+     }
+
+     protected logout(): void {
+          console.log('Logout - Metodo nao implementado');
+     }
 }
